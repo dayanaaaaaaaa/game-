@@ -5,12 +5,36 @@
     </head>
 
     <body>
-        <h1>Hi!!!!!</h1>
+        <h1>nombre </h1>
         <canvas id=myCanvas width=1000 height=800 style="background-image: url('torres-del-paine-chile-3.jpg'); background-size: cover;">
         </canvas>
     <script>
         var ctx = myCanvas.getContext("2d");
-        ctx.fillRect(10, 10, 20, 20);
+    var y_pos = 0;
+    var x_pos = 0;
+    var speed_y = 3;
+    var speed_x = 5;
+    var MyImg1 = new Image () ;
+    MyImg1.src = "Banana_PNG_Clipart.png";
+
+function MyTimer () {
+  ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+  y_pos = y_pos + speed_y;
+  x_pos = x_pos + speed_x;
+  if (y_pos>760){
+    speed_y = -15*Math.random()
+  } else if (y_pos<0){
+    speed_y = 15*Math.random()
+  }
+  if (x_pos>920){
+    speed_x = -20*Math.random()
+  } else if (x_pos<0){
+    speed_x = 20*Math.random()
+  }
+  ctx.drawImage(MyImg1, x_pos, y_pos, 80, 40);
+  }
+
+setInterval(MyTimer, 40);
     </script>
     </body>
 
