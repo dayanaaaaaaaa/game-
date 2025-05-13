@@ -6,41 +6,127 @@
 
     <body>
         <h1> El recolector </h1>
-        <canvas id=myCanvas width=1050 height=850 style="background-image: url('fondo.avif'); background-size: cover;">
+        <canvas id=myCanvas width=1050 height=850 style="background-image: url('mountains-background-game-vector.jpg'); background-size: cover;">
         </canvas>
     <script>
-        var ctx = myCanvas.getContext("2d");
-    var y_pos = 0;
-    var x_pos = 0;
-    var speed_y = 3;
-    var speed_x = 5;
-    var MyImg1 = new Image () ;
-    MyImg1.src = "Banana_PNG_Clipart.png";
-    var MyImg2 = new Image();
+
+      // Game code starts here
+
+       var ctx = myCanvas.getContext("2d");
+
+    //Make fruits (and starting info)
+    var y_pos_ban = 0;
+    var x_pos_ban = 0;
+    var speed_y_ban = 3;
+    var speed_x_ban = 5;
+    var x_size_ban = 80;
+    var y_size_ban = 40;
+    var y_pos_ap = 0;
+    var x_pos_ap = 300;
+    var speed_y_ap = 5;
+    var speed_x_ap = 2;
+    var x_size_ap = 40;
+    var y_size_ap = 40;
+    var y_pos_blu = 0;
+    var x_pos_blu = 600;
+    var speed_y_blu = 1;
+    var speed_x_blu = 6;
+    var y_pos_fr = 0;
+    var x_pos_fr = 900;
+    var speed_y_fr = 8;
+    var speed_x_fr = 6;
+    var MyImg_ban = new Image () ;
+    MyImg_ban.src = "Banana_PNG_Clipart.png";
+    var MyImg_ap = new Image();
+    MyImg_ap.src = "apple.png";
+    var MyImg_blu = new Image ();
+    MyImg_blu.src = "blueberry.png"; 
+    var MyImg_fr = new Image();
+    MyImg_fr.src = "frambuesa.png";
 
 
+    //Rectangle list
+var rect_list = [[500, 100], [900, 600], [200, 700], [100, 550], [800, 800], [300, 200], [650, 300]]
+
+
+//Function that checks if two objects are touching
+
+function ImagesTouching(x1, y1, x_size1, y_size1, x2, y2, x_size2, y_size2) {
+          //
+          // This function detects whether two images are touching - very useful function
+          // 
+          if (x1 >= x2+x_size2 || x1+x_size1 <= x2) return false;   // too far to the side
+          if (y1 >= y2+y_size2 || y1+y_size1 <= y2) return false; // too far above/below
+          return true;                                                    // otherwise, overlap   
+          }
+
+
+//Function what happens every frame
 
 function MyTimer () {
   ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-  ctx.fillRect(500, 100, 20, 20);
-  ctx.fillRect(900, 600, 20, 20);
-  ctx.fillRect(200, 700, 20, 20);
-  ctx.fillRect(100, 550, 20, 20);
-  ctx.fillRect(800, 800, 20, 20);
-  ctx.fillRect(300, 200, 20, 20);
-  y_pos = y_pos + speed_y;
-  x_pos = x_pos + speed_x;
-  if (y_pos>760){
-    speed_y = -15*Math.random()
-  } else if (y_pos<0){
-    speed_y = 15*Math.random()
+
+
+  //Change position of fruits, check if colliding with sides
+
+  y_pos_ban = y_pos_ban + speed_y_ban;
+  x_pos_ban = x_pos_ban + speed_x_ban;
+  if (y_pos_ban>810 || y_pos_ban<0 ){
+    speed_y_ban = -speed_y_ban
+    rect_list.push([1050*Math.random(), 850*Math.random()])
   }
-  if (x_pos>920){
-    speed_x = -20*Math.random()
-  } else if (x_pos<0){
-    speed_x = 20*Math.random()
+  if (x_pos_ban>970 || x_pos_ban<0){
+    speed_x_ban = -speed_x_ban
+  } 
+
+  y_pos_ap = y_pos_ap + speed_y_ap;
+  x_pos_ap = x_pos_ap + speed_x_ap;
+  if (y_pos_ap>810 || y_pos_ap<0 ){
+    speed_y_ap = -speed_y_ap
   }
-  ctx.drawImage(MyImg1, x_pos, y_pos, 80, 40);
+  if (x_pos_ap>970 || x_pos_ap<0){
+    speed_x_ap = -speed_x_ap
+  } 
+
+  y_pos_blu = y_pos_blu + speed_y_blu;
+  x_pos_blu = x_pos_blu + speed_x_blu;
+  if (y_pos_blu>810 || y_pos_blu<0 ){
+    speed_y_blu = -speed_y_blu
+  }
+  if (x_pos_blu>970 || x_pos_blu<0){
+    speed_x_blu = -speed_x_blu
+  } 
+
+  y_pos_fr = y_pos_fr + speed_y_fr;
+  x_pos_fr = x_pos_fr + speed_x_fr;
+  if (y_pos_fr>810 || y_pos_fr<0 ){
+    speed_y_fr = -speed_y_fr
+  }
+  if (x_pos_fr>970 || x_pos_fr<0){
+    speed_x_fr = -speed_x_fr
+  } 
+
+
+  if (ImagesTouching(x_pos_ap, y_pos_ap, x_size_ap, y_size_ap, x_pos_ban, y_pos_ban, x_size_ban, y_size_ban)){
+    speed_x_ap = 10*Math.random()-5
+    speed_y_ap = 10*Math.random()-5
+    speed_x_ban = 16*Math.random()-8
+    speed_y_ban = 16*Math.random()-8
+  }
+
+  // Draw fruits
+  ctx.drawImage(MyImg_ban, x_pos_ban, y_pos_ban, x_size_ban, y_size_ban);
+  ctx.drawImage(MyImg_ap, x_pos_ap, y_pos_ap, x_size_ap, y_size_ap);
+  ctx.drawImage(MyImg_blu, x_pos_blu, y_pos_blu, 42, 32);
+  ctx.drawImage(MyImg_fr, x_pos_fr, y_pos_fr, 60, 60);
+
+
+  // Draw rectangles
+  for( rect of rect_list){
+    ctx.fillRect(rect[0], rect[1], 20, 20);
+  }
+
+
   }
   
   setInterval(MyTimer, 40);
