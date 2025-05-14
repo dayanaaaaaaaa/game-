@@ -6,15 +6,26 @@
 
     <body>
         <h1> El recolector </h1>
+        <h2> Your score:</h2>
+        <h3 id = "score"></h3>
         <canvas id=myCanvas width=1050 height=850 style="background-image: url('mountains-background-game-vector.jpg'); background-size: cover;">
         </canvas>
     <script>
+      var state = 0 // 0 - game is playing, 1 - game is stopped
 
       // Game code starts here
+      var score = 0;
+      var ctx = myCanvas.getContext("2d");
 
-       var ctx = myCanvas.getContext("2d");
+    var y_pos_av = 400;
+    var x_pos_av = 400;
+    var x_size_av = 70;
+    var y_size_av = 70;
+    var MyImg_av = new Image (); 
+    MyImg_av.src = "avatar_png.png";           // the men 
 
     //Make fruits (and starting info)
+
     var y_pos_ban = 0;
     var x_pos_ban = 0;
     var speed_y_ban = 3;
@@ -43,7 +54,7 @@
     MyImg_blu.src = "blueberry.png"; 
     var MyImg_fr = new Image();
     MyImg_fr.src = "frambuesa.png";
-
+  
 
     //Rectangle list
 var rect_list = [[500, 100], [900, 600], [200, 700], [100, 550], [800, 800], [300, 200], [650, 300]]
@@ -64,6 +75,7 @@ function ImagesTouching(x1, y1, x_size1, y_size1, x2, y2, x_size2, y_size2) {
 //Function what happens every frame
 
 function MyTimer () {
+  if (state==0){
   ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
 
@@ -73,7 +85,6 @@ function MyTimer () {
   x_pos_ban = x_pos_ban + speed_x_ban;
   if (y_pos_ban>810 || y_pos_ban<0 ){
     speed_y_ban = -speed_y_ban
-    rect_list.push([1050*Math.random(), 850*Math.random()])
   }
   if (x_pos_ban>970 || x_pos_ban<0){
     speed_x_ban = -speed_x_ban
@@ -106,7 +117,7 @@ function MyTimer () {
     speed_x_fr = -speed_x_fr
   } 
 
-
+ //Apple and banana touching
   if (ImagesTouching(x_pos_ap, y_pos_ap, x_size_ap, y_size_ap, x_pos_ban, y_pos_ban, x_size_ban, y_size_ban)){
     speed_x_ap = 10*Math.random()-5
     speed_y_ap = 10*Math.random()-5
@@ -114,11 +125,39 @@ function MyTimer () {
     speed_y_ban = 16*Math.random()-8
   }
 
+
+  //Apple and man touching
+  if (ImagesTouching(x_pos_ap, y_pos_ap, x_size_ap, y_size_ap, x_pos_av, y_pos_av, x_size_av, y_size_av)){
+    rect_list.push([1050*Math.random(), 850*Math.random()])
+    x_pos_ap = 800*Math.random();
+    y_pos_ap = 0;
+    speed_x_ap = 10*Math.random()
+    speed_y_ap = 10*Math.random()
+    score = score +10; 
+  }
+ 
+
+  //Man touching black block
+  for(rect of rect_list){
+    if(ImagesTouching(rect[0], rect[1], 20, 20, x_pos_av, y_pos_av, x_size_av, y_size_av)){
+      state = 1
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      ctx.fillStyle= "red";
+      ctx.font = "bold 50px Arial";                                   // say so
+      ctx.textAlign="center";
+      ctx.fillText("Game Over", myCanvas.width / 2, myCanvas.height / 2);
+    }
+  }
+
+
+
+
   // Draw fruits
   ctx.drawImage(MyImg_ban, x_pos_ban, y_pos_ban, x_size_ban, y_size_ban);
   ctx.drawImage(MyImg_ap, x_pos_ap, y_pos_ap, x_size_ap, y_size_ap);
   ctx.drawImage(MyImg_blu, x_pos_blu, y_pos_blu, 42, 32);
   ctx.drawImage(MyImg_fr, x_pos_fr, y_pos_fr, 60, 60);
+  ctx.drawImage(MyImg_av, x_pos_av, y_pos_av, x_size_av, y_size_av);
 
 
   // Draw rectangles
@@ -126,10 +165,32 @@ function MyTimer () {
     ctx.fillRect(rect[0], rect[1], 20, 20);
   }
 
-
+  document.getElementById("score").innerHTML = score;
+  }
   }
   
+
+
   setInterval(MyTimer, 40);
+
+  
+
+  function MyKeyDownHandler (MyEvent) { 
+   if (MyEvent.keyCode == 37 && x_pos_av > 0) {x_pos_av = x_pos_av - 10;}                          // left
+   if (MyEvent.keyCode == 39 && x_pos_av+x_size_av < myCanvas.width) {x_pos_av = x_pos_av+10;}  // right
+   if (MyEvent.keyCode == 38 && y_pos_av > 0) {y_pos_av = y_pos_av - 10;}                          // up
+   if (MyEvent.keyCode == 40 && y_pos_av+y_size_av < myCanvas.width) {y_pos_av = y_pos_av+10;}  // down
+   if (MyEvent.keyCode == 32) restart_game();                                             // blank space to restart 
+   MyEvent.preventDefault();
+   }
+
+ addEventListener("keydown", MyKeyDownHandler);                      // listen for keystrokes  
+
+function restart_game(){
+  console.log("restart")
+}
+
+
     </script>
     </body>
 
