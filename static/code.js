@@ -239,13 +239,11 @@ if (ImagesTouching(x_pos_fr, y_pos_fr, x_size_fr, y_size_fr, x_pos_av, y_pos_av,
    if (MyEvent.keyCode == 39 && x_pos_av+x_size_av < myCanvas.width) {x_pos_av = x_pos_av+10;}  // right
    if (MyEvent.keyCode == 38 && y_pos_av > 0) {y_pos_av = y_pos_av - 10;}                          // up
    if (MyEvent.keyCode == 40 && y_pos_av+y_size_av < myCanvas.width) {y_pos_av = y_pos_av+10;}  // down
-   if (MyEvent.keyCode == 32) restart_game();                                             // blank space to restart 
+
   //  MyEvent.preventDefault();
    }
 
  addEventListener("keydown", MyKeyDownHandler);                      // listen for keystrokes  
 
-function restart_game(){
-  console.log("restart")
-}
+
 
