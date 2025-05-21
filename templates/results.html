@@ -1,0 +1,24 @@
+{%extends "canvas.html"%}
+
+{%block stuff%}
+
+<table class="table table-striped">
+    <tr>
+        <th> Name </th>
+        <th> Score </th>
+    </tr>
+    {%for one in results %}
+    <tr>
+        <td>{{one[0]}}</td>
+        <td>{{one[1]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+{%endblock%}
+
+
+{% block results %}
+{% endblock %}

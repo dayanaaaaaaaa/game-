@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<HTML>
-    <head>
-     <title> My new Web Page </title>
-    </head>
-
-    <body>
-        <h1> The collector </h1>
-        <h2> Your score:</h2>
-        <h3 id = "score"></h3>
-        <canvas id=myCanvas width=1050 height=850 style="background-image: url('mountains-background-game-vector.jpg'); background-size: cover;">
-        </canvas>
-    <script>
-      var state = 0 // 0 - game is playing, 1 - game is stopped
+var state = 0 // 0 - game is playing, 1 - game is stopped
 
       // Game code starts here
       var score = 0;
@@ -22,7 +9,7 @@
     var x_size_av = 70;
     var y_size_av = 70;
     var MyImg_av = new Image (); 
-    MyImg_av.src = "avatar_png.png";           // the men 
+    MyImg_av.src = "static/images/avatar_png.png";           // the men 
 
     //Make fruits (and starting info)
 
@@ -42,23 +29,26 @@
     var x_pos_blu = 600;
     var speed_y_blu = 1;
     var speed_x_blu = 6;
+    var x_size_blu = 42;
+    var y_size_blu = 32;
     var y_pos_fr = 0;
     var x_pos_fr = 900;
     var speed_y_fr = 8;
     var speed_x_fr = 6;
+    var x_size_fr = 60
+    var y_size_fr = 60
     var MyImg_ban = new Image () ;
-    MyImg_ban.src = "Banana_PNG_Clipart.png";
+    MyImg_ban.src = "static/images/Banana_PNG_Clipart.png";
     var MyImg_ap = new Image();
-    MyImg_ap.src = "apple.png";
+    MyImg_ap.src = "static/images/apple.png";
     var MyImg_blu = new Image ();
-    MyImg_blu.src = "blueberry.png"; 
+    MyImg_blu.src = "static/images/blueberry.png"; 
     var MyImg_fr = new Image();
-    MyImg_fr.src = "frambuesa.png";
+    MyImg_fr.src = "static/images/frambuesa.png";
   
 
     //Rectangle list
-var rect_list = [[500, 100], [900, 600], [200, 700], [100, 550], [800, 800], [300, 200], [650, 300]]
-
+var rect_list = [[0, 80], [50, 80], [100, 80], [150, 80], [200, 80], [250, 80], [300, 80], [350, 80], [400, 80], [450, 80], [500, 80], [550, 80], [600, 80], [650, 80], [700,80], [750, 80], [800, 80], [850, 80], [900, 80], [950, 80], [1000,80], [1050,80]]
 
 //Function that checks if two objects are touching
 
@@ -117,7 +107,7 @@ function MyTimer () {
     speed_x_fr = -speed_x_fr
   } 
 
- //Apple and banana touching
+  //Apple and banana touching
   if (ImagesTouching(x_pos_ap, y_pos_ap, x_size_ap, y_size_ap, x_pos_ban, y_pos_ban, x_size_ban, y_size_ban)){
     speed_x_ap = 10*Math.random()-5
     speed_y_ap = 10*Math.random()-5
@@ -125,6 +115,21 @@ function MyTimer () {
     speed_y_ban = 16*Math.random()-8
   }
 
+  //Apple and blueberry touching
+  if (ImagesTouching(x_pos_ap, y_pos_ap, x_size_ap, y_size_ap, x_pos_blu, y_pos_blu, x_size_blu, y_size_blu)){
+    speed_x_ap = 10*Math.random()-5
+    speed_y_ap = 10*Math.random()-5
+    speed_x_blu = 16*Math.random()-8
+    speed_y_blu = 16*Math.random()-8
+  }
+
+  //Apple and frambuesa touching
+if (ImagesTouching(x_pos_ap, y_pos_ap, x_size_ap, y_size_ap, x_pos_fr, y_pos_fr, x_size_fr, y_size_fr)){
+    speed_x_ap = 10*Math.random()-5
+    speed_y_ap = 10*Math.random()-5
+    speed_x_fr = 16*Math.random()-8
+    speed_y_fr = 16*Math.random()-8
+  }
 
   //Apple and man touching
   if (ImagesTouching(x_pos_ap, y_pos_ap, x_size_ap, y_size_ap, x_pos_av, y_pos_av, x_size_av, y_size_av)){
@@ -133,9 +138,62 @@ function MyTimer () {
     y_pos_ap = 0;
     speed_x_ap = 10*Math.random()
     speed_y_ap = 10*Math.random()
-    score = score +10; 
+    score = score +6; 
   }
  
+  //Banana and frambuesa touching
+if (ImagesTouching(x_pos_ban, y_pos_ban, x_size_ban, y_size_ban, x_pos_fr, y_pos_fr, x_size_fr, y_size_fr)){
+    speed_x_ban = 10*Math.random()-5
+    speed_y_ban = 10*Math.random()-5
+    speed_x_fr = 16*Math.random()-8
+    speed_y_fr = 16*Math.random()-8
+  }
+
+ //Banana and blueburry touching
+ if (ImagesTouching(x_pos_ban, y_pos_ban, x_size_ban, y_size_ban, x_pos_blu, y_pos_blu, x_size_blu, y_size_blu)){
+    speed_x_ban = 10*Math.random()-5
+    speed_y_ban = 10*Math.random()-5
+    speed_x_fr = 16*Math.random()-8
+    speed_y_fr = 16*Math.random()-8
+  }
+
+  //Banana and Man touching
+if (ImagesTouching(x_pos_ban, y_pos_ban, x_size_ban, y_size_ban, x_pos_av, y_pos_av, x_size_av, y_size_av)){
+  rect_list.push([1050*Math.random(), 850*Math.random()])
+    x_pos_ban = 800*Math.random();
+    y_pos_ban = 0;
+    speed_x_ban = 10*Math.random()
+    speed_y_av = 10*Math.random()
+    score = score +4; 
+  }
+
+  //Blueburry and frambuesa touching
+ if (ImagesTouching(x_pos_blu, y_pos_blu, x_size_blu, y_size_blu, x_pos_fr, y_pos_fr, x_size_fr, y_size_fr)){
+    speed_x_blu = 10*Math.random()-5
+    speed_y_blu = 10*Math.random()-5
+    speed_x_fr = 16*Math.random()-8
+    speed_y_fr = 16*Math.random()-8
+  }
+
+//Blueberry and Man touching
+if (ImagesTouching(x_pos_blu, y_pos_blu, x_size_blu, y_size_blu, x_pos_av, y_pos_av, x_size_av, y_size_av)){
+  rect_list.push([1050*Math.random(), 850*Math.random()])
+    x_pos_blu = 800*Math.random();
+    y_pos_blu = 0;
+    speed_x_blu = 10*Math.random()
+    speed_y_av = 10*Math.random()
+    score = score +8; 
+  }
+
+  //Frambuesa and Man touching
+if (ImagesTouching(x_pos_fr, y_pos_fr, x_size_fr, y_size_fr, x_pos_av, y_pos_av, x_size_av, y_size_av)){
+  rect_list.push([1050*Math.random(), 850*Math.random()])
+    x_pos_fr = 800*Math.random();
+    y_pos_fr = 0;
+    speed_x_fr = 10*Math.random()
+    speed_y_av = 10*Math.random()
+    score = score +10; 
+  }
 
   //Man touching black block
   for(rect of rect_list){
@@ -155,8 +213,8 @@ function MyTimer () {
   // Draw fruits
   ctx.drawImage(MyImg_ban, x_pos_ban, y_pos_ban, x_size_ban, y_size_ban);
   ctx.drawImage(MyImg_ap, x_pos_ap, y_pos_ap, x_size_ap, y_size_ap);
-  ctx.drawImage(MyImg_blu, x_pos_blu, y_pos_blu, 42, 32);
-  ctx.drawImage(MyImg_fr, x_pos_fr, y_pos_fr, 60, 60);
+  ctx.drawImage(MyImg_blu, x_pos_blu, y_pos_blu, x_size_blu, y_size_blu);
+  ctx.drawImage(MyImg_fr, x_pos_fr, y_pos_fr, x_size_fr, y_size_fr);
   ctx.drawImage(MyImg_av, x_pos_av, y_pos_av, x_size_av, y_size_av);
 
 
@@ -166,6 +224,7 @@ function MyTimer () {
   }
 
   document.getElementById("score").innerHTML = score;
+  document.getElementById("res").value = score;
   }
   }
   
@@ -181,7 +240,7 @@ function MyTimer () {
    if (MyEvent.keyCode == 38 && y_pos_av > 0) {y_pos_av = y_pos_av - 10;}                          // up
    if (MyEvent.keyCode == 40 && y_pos_av+y_size_av < myCanvas.width) {y_pos_av = y_pos_av+10;}  // down
    if (MyEvent.keyCode == 32) restart_game();                                             // blank space to restart 
-   MyEvent.preventDefault();
+  //  MyEvent.preventDefault();
    }
 
  addEventListener("keydown", MyKeyDownHandler);                      // listen for keystrokes  
@@ -190,9 +249,3 @@ function restart_game(){
   console.log("restart")
 }
 
-
-    </script>
-    </body>
-
-</HTML>
- 
